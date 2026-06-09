@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Ada Error & Mister J | V.I.S.T.O_LAB</title>
+    <link rel="icon" href="https://res.cloudinary.com/dwx6kf2f6/image/upload/v1780873975/favicon_aebdg1.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="profile-container">
+                <img src="https://res.cloudinary.com/dwx6kf2f6/image/upload/v1780873975/favicon_aebdg1.jpg" alt="V.I.S.T.O_LAB" class="neon-profile-img">
+            </div>
+            <p class="subtitle"> V.I.S.T.O: OCUPAÇÕES VIDEO_COREOGRÁFICAS REABRINDO O LUGARzinho NO 4° distrito/POA</p>
+        </header>
+
+        <div class="glass-panel">
+
+            <nav class="links">
+                <a href="https://lab.visto.art.br" target="_blank" class="link-card main-btn">
+                    <span>COMECE POR AQUI</span>
+                </a>
+                <a href="https://www.instagram.com/projeto_visto/" target="_blank" class="link-card">
+                    <span>INSTAGRAM</span>
+                </a>
+                <a href="https://www.youtube.com/@PROJETOVISTO/featured" target="_blank" class="link-card">
+                    <span>YOUTUBE</span>
+                </a>
+                <a href="https://openprocessing.org/@Projeto_VISTO#sketches" target="_blank" class="link-card">
+                    <span>OPENPROCESSING</span>
+                </a>
+            </nav>
+
+        </div>
+
+        <footer>
+            <img src="https://res.cloudinary.com/dwx6kf2f6/image/fetch/v1777341905/https://raw.githubusercontent.com/1projetovisto-web/visto_lab_landing/main/public/favicon.png" alt="V.I.S.T.O_LAB Logo" class="footer-favicon">
+            
+            <div class="sponsors-container">
+                <img src="https://res.cloudinary.com/dwx6kf2f6/image/upload/v1781028607/regua_atualizada_institucional_fundo_preto_rxqjuw.png" alt="Régua de Financiamento Oficial - PNAB / SEDAC RS" class="sponsor-regua-unica regua-preta">
+            </div>
+
+            <p class="copyright">© 2026 V.I.S.T.O_LAB | Porto Alegre</p>
+        </footer>
+    </div>
+
+    <script>
+    let particles = [];
+    const MAX_DIST = 100; // Distância máxima para as estrelas se conectarem com linhas
+
+    function setup() {
+        let canvas = createCanvas(windowWidth, windowHeight);
+        canvas.position(0, 0);
+        canvas.style('z-index', '-1'); 
+        background(5);
+    }
+
+    function draw() {
+        background(5, 25); // Mantém o rastro orgânico de fundo
+        
+        // Cria partículas se o mouse mexer ou for pressionado
+        if (mouseIsPressed || (mouseX !== pmouseX && mouseY !== pmouseY)) {
+            particles.push(new Particle(mouseX, mouseY));
+        }
+
+        // Atualiza e desenha as partículas
+        for (let i = 0; i < particles.length; i++) {
+            particles[i].update();
+            particles[i].display();
+            
+            // LÓGICA DA CONSTELAÇÃO: Conecta partículas próximas com linhas sutis
+            for (let j = i + 1; j < particles.length; j++) {
+                let d = dist(particles[i].x, particles[i].y, particles[j].x, particles[j].y);
+                if (d < MAX_DIST) {
+                    // A opacidade da linha depende da distância e da vida da partícula
+                    let alphaLine = map(d, 0, MAX_DIST, min(particles[i].alpha, particles[j].alpha), 0);
+                    stroke(0, 255, 65, alphaLine * 0.4); // Verde neon sutil nas conexões
+                    strokeWeight(1);
+                    line(particles[i].x, particles[i].y, particles[j].x, particles[j].y);
+                }
+            }
+        }
+
+        // Remove as partículas mortas da memória
+        for (let i = particles.length - 1; i >= 0; i--) {
+            if (particles[i].isDead()) {
+                particles.splice(i, 1);
+            }
+        }
+    }
+
+    class Particle {
+        constructor(x, y) {
+            this.x = x;
+            this.y = y;
+            // Velocidade de expansão orgânica
+            this.vx = random(-1.5, 1.5);
+            this.vy = random(-1.5, 1.5);
+            this.alpha = 255;
+            this.size = random(2, 4.5); // Nós de estrelas pequenos e nítidos
+        }
+        
+        update() {
+            this.x += this.vx;
+            this.y += this.vy;
+            this.alpha -= 3.5; // Ritmo orgânico de fade-out
+        }
+        
+        display() {
+            noStroke();
+            fill(0, 255, 65, this.alpha);
+            ellipse(this.x, this.y, this.size, this.size);
+        }
+        
+        isDead() {
+            return this.alpha <= 0;
+        }
+    }
+
+    function windowResized() {
+        resizeCanvas(windowWidth, windowHeight);
+    }
+    </script>
+
+</body>
+</html>
