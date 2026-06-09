@@ -52,42 +52,47 @@
 
     <script>
     let particles = [];
-    const MAX_DIST = 100; // Distância máxima para as estrelas se conectarem com linhas
+    const MAX_DIST = 110; // Distância de conexão da constelação
+    const TOTAL_PARTICLES = 45; // Densidade ideal de dados na tela
 
     function setup() {
         let canvas = createCanvas(windowWidth, windowHeight);
         canvas.position(0, 0);
         canvas.style('z-index', '-1'); 
         background(5);
+
+        // Popula a tela inicialmente para o site não nascer vazio
+        for (let i = 0; i < TOTAL_PARTICLES; i++) {
+            particles.push(new Particle(random(width), random(height)));
+        }
     }
 
     function draw() {
-        background(5, 25); // Mantém o rastro orgânico de fundo
+        background(5, 30); // Efeito de rastro orgânico (fade)
         
-        // Cria partículas se o mouse mexer ou for pressionado
-        if (mouseIsPressed || (mouseX !== pmouseX && mouseY !== pmouseY)) {
-            particles.push(new Particle(mouseX, mouseY));
+        // Mantém o fluxo contínuo de partículas subindo
+        if (particles.length < TOTAL_PARTICLES) {
+            particles.push(new Particle(random(width), height + 20));
         }
 
-        // Atualiza e desenha as partículas
+        // Atualiza e desenha a teia de dados
         for (let i = 0; i < particles.length; i++) {
             particles[i].update();
             particles[i].display();
             
-            // LÓGICA DA CONSTELAÇÃO: Conecta partículas próximas com linhas sutis
+            // Lógica da Constelação Ascendente
             for (let j = i + 1; j < particles.length; j++) {
                 let d = dist(particles[i].x, particles[i].y, particles[j].x, particles[j].y);
                 if (d < MAX_DIST) {
-                    // A opacidade da linha depende da distância e da vida da partícula
                     let alphaLine = map(d, 0, MAX_DIST, min(particles[i].alpha, particles[j].alpha), 0);
-                    stroke(0, 255, 65, alphaLine * 0.4); // Verde neon sutil nas conexões
+                    stroke(0, 255, 65, alphaLine * 0.35); // Verde neon reativo sutil
                     strokeWeight(1);
                     line(particles[i].x, particles[i].y, particles[j].x, particles[j].y);
                 }
             }
         }
 
-        // Remove as partículas mortas da memória
+        // Filtra a memória: remove partículas que saíram do topo ou sumiram no fade
         for (let i = particles.length - 1; i >= 0; i--) {
             if (particles[i].isDead()) {
                 particles.splice(i, 1);
@@ -99,17 +104,18 @@
         constructor(x, y) {
             this.x = x;
             this.y = y;
-            // Velocidade de expansão orgânica
-            this.vx = random(-1.5, 1.5);
-            this.vy = random(-1.5, 1.5);
-            this.alpha = 255;
-            this.size = random(2, 4.5); // Nós de estrelas pequenos e nítidos
+            // Força a flutuação de baixo para cima (vy negativo) com leve oscilação horizontal (vx)
+            this.vx = random(-0.4, 0.4);
+            this.vy = random(-1.8, -0.6); 
+            this.alpha = random(100, 255); // Nascem com opacidades orgânicas variadas
+            this.size = random(2, 4.5);
+            this.fadeSpeed = random(1.5, 3.0);
         }
         
         update() {
             this.x += this.vx;
             this.y += this.vy;
-            this.alpha -= 3.5; // Ritmo orgânico de fade-out
+            this.alpha -= this.fadeSpeed;
         }
         
         display() {
@@ -119,7 +125,8 @@
         }
         
         isDead() {
-            return this.alpha <= 0;
+            // Morre se sumir no fade ou se ultrapassar o topo da janela
+            return this.alpha <= 0 || this.y < -20;
         }
     }
 
