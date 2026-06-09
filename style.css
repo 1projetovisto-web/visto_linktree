@@ -17,12 +17,14 @@ body {
     overflow-x: hidden;
 }
 
+/* AJUSTE RESPONSIVO: Acaba com o desconforto no PC e fica perfeito no celular */
 .container {
     width: 100%;
-    max-width: 450px;
+    max-width: 650px; /* Expandido de 450px para 650px para preencher melhor o monitor */
     text-align: center;
     position: relative;
     z-index: 10; 
+    transition: max-width 0.3s ease;
 }
 
 /* HEADER COM IMAGEM QUADRADA E PULSO NEON SUTIL */
@@ -79,6 +81,7 @@ header {
     gap: 15px;
 }
 
+/* PADRONIZAÇÃO: Todos os cards agora nascem com a base Glassmorphism */
 .link-card {
     display: block;
     padding: 18px;
@@ -94,27 +97,29 @@ header {
     font-size: 0.9rem;
 }
 
-.link-card:hover {
-    border-color: rgba(255, 255, 255, 0.5);
-    color: #fff;
-    background: rgba(255, 255, 255, 0.05);
+/* ECOSSISTEMA REATIVO: Todos os botões normais agora acendem em verde-neon de forma sutil no toque/hover */
+.link-card:hover, .link-card:active {
+    border-color: rgba(0, 255, 65, 0.5);
+    color: #00ff41;
+    background: rgba(0, 255, 65, 0.05);
     transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(0, 255, 65, 0.2);
 }
 
-/* DESTAQUE DO BOTÃO PRINCIPAL (COMECE POR AQUI) */
+/* DESTAQUE MÁXIMO DO BOTÃO PRINCIPAL (COMECE POR AQUI) */
 .main-btn {
-    background: rgba(0, 255, 65, 0.05);
+    background: rgba(0, 255, 65, 0.08);
     border: 1px solid #00ff41;
     color: #00ff41;
     text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
     font-weight: 700;
 }
 
-.main-btn:hover {
+.main-btn:hover, .main-btn:active {
     border-color: #00ff41;
     color: #000;
     background: #00ff41;
-    box-shadow: 0 0 20px rgba(0, 255, 65, 0.6);
+    box-shadow: 0 0 25px rgba(0, 255, 65, 0.7);
 }
 
 /* FOOTER COM A LOGO REDONDA E RÉGUA INSTITUCIONAL PURA */
