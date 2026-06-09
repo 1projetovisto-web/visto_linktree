@@ -52,47 +52,48 @@
 
     <script>
     let particles = [];
-    const MAX_DIST = 110; // Distância de conexão da constelação
-    const TOTAL_PARTICLES = 45; // Densidade ideal de dados na tela
+    const MAX_DIST = 120; // Distância ideal para conexões geométricas nítidas
+    const TOTAL_PARTICLES = 60; // Densidade perfeita para preencher a tela inteira
 
     function setup() {
         let canvas = createCanvas(windowWidth, windowHeight);
         canvas.position(0, 0);
         canvas.style('z-index', '-1'); 
-        background(5);
+        background(5); // Inicia o espaço limpo
 
-        // Popula a tela inicialmente para o site não nascer vazio
+        // Distribui as partículas iniciais por toda a tela para não nascer vazio
         for (let i = 0; i < TOTAL_PARTICLES; i++) {
             particles.push(new Particle(random(width), random(height)));
         }
     }
 
     function draw() {
-        background(5, 30); // Efeito de rastro orgânico (fade)
+        // CORREÇÃO DAS MANCHAS: Aumentamos a opacidade do fundo para limpar os rastros antigos perfeitamente
+        background(5, 45); 
         
-        // Mantém o fluxo contínuo de partículas subindo
+        // Mantém o gerador ativo na base da tela
         if (particles.length < TOTAL_PARTICLES) {
-            particles.push(new Particle(random(width), height + 20));
+            particles.push(new Particle(random(width), height + 10));
         }
 
-        // Atualiza e desenha a teia de dados
+        // Atualiza, move e conecta a rede somática
         for (let i = 0; i < particles.length; i++) {
             particles[i].update();
             particles[i].display();
             
-            // Lógica da Constelação Ascendente
+            // Lógica de Conexão da Constelação
             for (let j = i + 1; j < particles.length; j++) {
                 let d = dist(particles[i].x, particles[i].y, particles[j].x, particles[j].y);
                 if (d < MAX_DIST) {
                     let alphaLine = map(d, 0, MAX_DIST, min(particles[i].alpha, particles[j].alpha), 0);
-                    stroke(0, 255, 65, alphaLine * 0.35); // Verde neon reativo sutil
+                    stroke(0, 255, 65, alphaLine * 0.4); // Verde neon responsivo
                     strokeWeight(1);
                     line(particles[i].x, particles[i].y, particles[j].x, particles[j].y);
                 }
             }
         }
 
-        // Filtra a memória: remove partículas que saíram do topo ou sumiram no fade
+        // Faxina da Memória: Remove quem sumiu ou ultrapassou o topo
         for (let i = particles.length - 1; i >= 0; i--) {
             if (particles[i].isDead()) {
                 particles.splice(i, 1);
@@ -104,12 +105,13 @@
         constructor(x, y) {
             this.x = x;
             this.y = y;
-            // Força a flutuação de baixo para cima (vy negativo) com leve oscilação horizontal (vx)
-            this.vx = random(-0.4, 0.4);
-            this.vy = random(-1.8, -0.6); 
-            this.alpha = random(100, 255); // Nascem com opacidades orgânicas variadas
-            this.size = random(2, 4.5);
-            this.fadeSpeed = random(1.5, 3.0);
+            // FÍSICA CORRIGIDA: Velocidade ascendente real (-2.5 a -1.2) para fazê-las subir sem travar
+            this.vx = random(-0.5, 0.5);
+            this.vy = random(-2.5, -1.2); 
+            this.alpha = 255; // Nascem com brilho máximo
+            this.size = random(2.5, 5); // Nós nítidos de dados
+            // Desaparecimento suave para permitir que cruzem a tela antes de morrer
+            this.fadeSpeed = random(0.8, 1.5); 
         }
         
         update() {
@@ -125,13 +127,14 @@
         }
         
         isDead() {
-            // Morre se sumir no fade ou se ultrapassar o topo da janela
-            return this.alpha <= 0 || this.y < -20;
+            // Morre se perder o brilho por completo ou se passar do topo da tela
+            return this.alpha <= 0 || this.y < -10;
         }
     }
 
     function windowResized() {
         resizeCanvas(windowWidth, windowHeight);
+        background(5); // Limpa resíduos ao redimensionar a tela
     }
     </script>
 
