@@ -20,14 +20,14 @@ body {
 /* AJUSTE RESPONSIVO: Acaba com o desconforto no PC e fica perfeito no celular */
 .container {
     width: 100%;
-    max-width: 650px; /* Expandido de 450px para 650px para preencher melhor o monitor */
+    max-width: 650px; /* Expandido para preencher melhor o monitor */
     text-align: center;
     position: relative;
     z-index: 10; 
     transition: max-width 0.3s ease;
 }
 
-/* HEADER COM IMAGEM QUADRADA E PULSO NEON SUTIL */
+/* HEADER COM IMAGEM QUADRADA CRUA E PULSO NEON DO FILAMENTO */
 header {
     margin-bottom: 30px;
     display: flex;
@@ -43,8 +43,8 @@ header {
     width: 130px;
     height: 130px;
     object-fit: cover;
-    border-radius: 12px;
-    border: 1px solid rgba(0, 255, 65, 0.3);
+    border-radius: 0px; /* QUADRADO PURO: Ângulos secos de 90° sem suavização */
+    border: 1px solid rgba(0, 255, 65, 0.4);
     animation: neonGlow 4s infinite ease-in-out; 
 }
 
@@ -55,10 +55,12 @@ header {
     line-height: 1.5;
     letter-spacing: 2px;
     color: #00ff41; 
-    text-shadow: 0 0 5px rgba(0, 255, 65, 0.4);
-    margin-top: 10px;
+    margin-top: 15px;
     padding: 0 10px;
     text-transform: uppercase;
+    
+    /* Nova animação de pulsação e cintilação de tela ativa */
+    animation: neonBlink 3.5s infinite ease-in-out;
 }
 
 /* CAIXA ÚNICA GLASSMORPHISM */
@@ -147,7 +149,7 @@ footer {
 /* Painel das marcas com ajuste de respiro interno reduzido para expansão */
 .sponsors-container {
     margin: 20px auto 15px auto;
-    padding: 8px 12px; /* Reduzido de 16px para maximizar a área útil interna */
+    padding: 8px 12px; /* Reduzido para maximizar a área útil interna */
     background: rgba(0, 255, 65, 0.02); 
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
@@ -165,11 +167,11 @@ footer {
 .sponsor-regua-unica {
     width: 100%;
     height: auto;
-    max-height: 95px; /* Aumentado de 70px para 95px eliminando o vazio vertical */
+    max-height: 95px; /* Aumentado eliminando o vazio vertical */
     object-fit: contain;
     opacity: 0.9; 
     filter: brightness(1.2) drop-shadow(0 0 4px rgba(0, 255, 65, 0.2)); 
-    transform: scale(1.03); /* Preenche e espalha em direção às bordas laterais */
+    transform: scale(1.03); /* Preenche em direção às bordas laterais */
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
@@ -186,7 +188,7 @@ footer {
 .sponsors-container:hover .sponsor-regua-unica {
     opacity: 1; 
     filter: brightness(1.5) drop-shadow(0 0 10px rgba(0, 255, 65, 0.6)); 
-    transform: scale(1.06); /* Expansão responsiva reativa */
+    transform: scale(1.06); 
 }
 
 .copyright {
@@ -196,7 +198,11 @@ footer {
     margin-top: 15px;
 }
 
-/* ANIMAÇÃO DE PULSO NEON NA IMAGEM DE PERFIL */
+/* ==========================================================================
+   ANIMAÇÕES DE SINAL NEON (MOTOres DE LUZ)
+   ========================================================================== */
+
+/* Animação do contorno da imagem quadrada de perfil */
 @keyframes neonGlow {
     0%, 100% {
         box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
@@ -205,5 +211,27 @@ footer {
     50% {
         box-shadow: 0 0 25px rgba(0, 255, 65, 0.6);
         border-color: rgba(0, 255, 65, 0.8);
+    }
+}
+
+/* Animação de pulso e cintilação sutil com micro-glitch de energia no texto */
+@keyframes neonBlink {
+    0%, 100% {
+        text-shadow: 0 0 4px rgba(0, 255, 65, 0.3),
+                     0 0 10px rgba(0, 255, 65, 0.2);
+        opacity: 0.85;
+    }
+    50% {
+        text-shadow: 0 0 12px rgba(0, 255, 65, 0.7),
+                     0 0 20px rgba(0, 255, 65, 0.4),
+                     0 0 30px rgba(0, 255, 65, 0.2);
+        opacity: 1;
+    }
+    /* Micro queda de tensão rápida imitando terminal de fósforo verde antigo */
+    52% {
+        opacity: 0.9;
+    }
+    54% {
+        opacity: 1;
     }
 }
