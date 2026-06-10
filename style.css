@@ -40,8 +40,8 @@ header {
 }
 
 .neon-profile-img {
-    width: 130px;
-    height: 130px;
+    width: 180px;
+    height: 180px;
     object-fit: cover;
     border-radius: 0px; /* QUADRADO PURO: Ângulos secos de 90° sem suavização */
     border: 1px solid rgba(0, 255, 65, 0.4);
