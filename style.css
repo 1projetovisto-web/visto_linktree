@@ -162,48 +162,46 @@ footer {
     align-items: center;
     justify-content: center;
 }
-
-/* A régua de logos EXPANDIDA e sincronizada com o pulso somático do sistema */
+/* A régua de logos EXPANDIDA e acesa com injeção de fótons verde-neon */
 .sponsor-regua-unica {
     width: 100%;
     height: auto;
     max-height: 95px; 
     object-fit: contain;
-    opacity: 0.85; 
-    
-    /* Nova animação exclusiva para imagens de marcas */
-    animation: logoBlink 3.5s infinite ease-in-out;
+    opacity: 0.85;     
+    /* REMOVIDO O MIX-BLEND-MODE que estava anulando as cores do filtro */
+    mix-blend-mode: normal; 
+    /* Dispara o novo motor de luz exclusivo para PNG transparente */
+    animation: transparentPngNeon 3.5s infinite ease-in-out;
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
-
 .regua-preta {
-    mix-blend-mode: screen;
+    /* Deixamos o fundo limpo nativo */
 }
-
-/* Efeito Hover/Toque no celular: Iluminação e Presença Absoluta */
+/* Efeito Hover/Toque: Sob o controle do usuário, o neon assume potência máxima */
 .sponsors-container:hover {
     border-color: rgba(0, 255, 65, 0.6);
     box-shadow: 0 0 25px rgba(0, 255, 65, 0.25);
 }
-
 .sponsors-container:hover .sponsor-regua-unica {
     opacity: 1; 
-    animation-play-state: paused; /* Trava o pulso para focar na leitura */
-    filter: brightness(1.6) drop-shadow(0 0 12px rgba(0, 255, 65, 0.6)); 
+    animation-play-state: paused; /* Fixa a luz no máximo ao interagir */
+    
+    /* Super-Backlight Neon: Força uma blindagem verde-neon densa ao redor das marcas */
+    filter: brightness(1.3) 
+            drop-shadow(0 0 6px #00ff41) 
+            drop-shadow(0 0 15px rgba(0, 255, 65, 0.6));
     transform: scale(1.06); 
 }
-
 .copyright {
     font-size: 0.65rem;
     color: #333;
     letter-spacing: 1px;
     margin-top: 15px;
 }
-
 /* ==========================================================================
    ANIMAÇÕES DE SINAL NEON (MOTORES DE LUZ)
    ========================================================================== */
-
 /* Animação do contorno da imagem quadrada de perfil */
 @keyframes neonGlow {
     0%, 100% {
@@ -215,7 +213,6 @@ footer {
         border-color: rgba(0, 255, 65, 0.8);
     }
 }
-
 /* Animação de pulso e cintilação sutil com micro-glitch no TEXTO do subtítulo */
 @keyframes neonBlink {
     0%, 100% {
@@ -229,26 +226,31 @@ footer {
                      0 0 30px rgba(0, 255, 65, 0.2);
         opacity: 1;
     }
-    /* Micro queda de tensão rápida imitando terminal de fósforo verde antigo */
     52% { opacity: 0.9; }
     54% { opacity: 1; }
 }
-
-/* NOVA ANIMAÇÃO EXCLUSIVA CORRIGIDA: Força o hardware a pulsar os filtros da IMAGEM em sincronia */
-@keyframes logoBlink {
+/* NOVA ANIMAÇÃO CRÍTICA: Força o contorno do PNG transparente a emitir luz verde */
+@keyframes transparentPngNeon {
     0%, 100% {
-        filter: brightness(1.1) drop-shadow(0 0 3px rgba(0, 255, 65, 0.2));
+        /* Estado sutil: Uma névoa verde fina contorna as marcas brancas */
+        filter: brightness(1.0) drop-shadow(0 0 3px rgba(0, 255, 65, 0.3));
         opacity: 0.80;
     }
     50% {
-        filter: brightness(1.4) drop-shadow(0 0 10px rgba(0, 255, 65, 0.5));
+        /* Pico do pulso: As marcas ganham potência e acendem o verde-neon nas bordas */
+        filter: brightness(1.2) 
+                drop-shadow(0 0 5px #00ff41) 
+                drop-shadow(0 0 12px rgba(0, 255, 65, 0.4));
         opacity: 1;
     }
-    /* Sincronia do micro-glitch de energia idêntico ao do topo */
+    /* Sincronia perfeita do micro-glitch de queda de energia idêntico ao do topo */
     52% {
         opacity: 0.85;
+        filter: brightness(1.1) drop-shadow(0 0 2px rgba(0, 255, 65, 0.2));
     }
     54% {
         opacity: 1;
+        filter: brightness(1.2) drop-shadow(0 0 5px #00ff41);
     }
 }
+    
