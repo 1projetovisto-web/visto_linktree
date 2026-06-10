@@ -163,16 +163,20 @@ footer {
     justify-content: center;
 }
 
-/* A régua de logos EXPANDIDA para ocupar os vazios */
+/* A régua de logos EXPANDIDA e sincronizada com o pulso somático do sistema */
 .sponsor-regua-unica {
     width: 100%;
     height: auto;
     max-height: 95px; /* Aumentado eliminando o vazio vertical */
     object-fit: contain;
-    opacity: 0.9; 
+    opacity: 0.85; 
+    
+    /* Filtro base de realce e brilho inicial */
     filter: brightness(1.2) drop-shadow(0 0 4px rgba(0, 255, 65, 0.2)); 
-    transform: scale(1.03); /* Preenche em direção às bordas laterais */
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+    /* MÁGICA DA SINCRONIA: Herda o motor de luz e oscilação exatamente idêntico ao topo */
+    animation: neonBlink 3.5s infinite ease-in-out;
 }
 
 .regua-preta {
@@ -187,8 +191,10 @@ footer {
 
 .sponsors-container:hover .sponsor-regua-unica {
     opacity: 1; 
-    filter: brightness(1.5) drop-shadow(0 0 10px rgba(0, 255, 65, 0.6)); 
-    transform: scale(1.06); 
+    /* Pausa a oscilação genérica para cravar o brilho máximo de leitura sob interação */
+    animation-play-state: paused; 
+    filter: brightness(1.5) drop-shadow(0 0 12px rgba(0, 255, 65, 0.7)); 
+    transform: scale(1.06); /* Expansão responsiva reativa */
 }
 
 .copyright {
@@ -199,7 +205,7 @@ footer {
 }
 
 /* ==========================================================================
-   ANIMAÇÕES DE SINAL NEON (MOTOres DE LUZ)
+   ANIMAÇÕES DE SINAL NEON (MOTORES DE LUZ)
    ========================================================================== */
 
 /* Animação do contorno da imagem quadrada de perfil */
@@ -214,17 +220,19 @@ footer {
     }
 }
 
-/* Animação de pulso e cintilação sutil com micro-glitch de energia no texto */
+/* Animação de pulso e cintilação sutil com micro-glitch de energia no texto e nas logos */
 @keyframes neonBlink {
     0%, 100% {
         text-shadow: 0 0 4px rgba(0, 255, 65, 0.3),
                      0 0 10px rgba(0, 255, 65, 0.2);
+        filter: brightness(1.1) drop-shadow(0 0 4px rgba(0, 255, 65, 0.15));
         opacity: 0.85;
     }
     50% {
         text-shadow: 0 0 12px rgba(0, 255, 65, 0.7),
                      0 0 20px rgba(0, 255, 65, 0.4),
                      0 0 30px rgba(0, 255, 65, 0.2);
+        filter: brightness(1.3) drop-shadow(0 0 8px rgba(0, 255, 65, 0.4));
         opacity: 1;
     }
     /* Micro queda de tensão rápida imitando terminal de fósforo verde antigo */
