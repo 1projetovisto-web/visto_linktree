@@ -67,22 +67,22 @@
         canvas.style('backdrop-filter', 'blur(4px) brightness(0.9)'); // Névoa sci-fi sutil de fundo
         canvas.style('-webkit-backdrop-filter', 'blur(4px) brightness(0.9)');
         
-        background(5); // Inicializa o espaço preto
+        background(5); // Inicializa o espaço preto totalmente limpo
         
-        // Popula a tela de forma homogênea no início
-        for (let i = 0; i < TOTAL_PARTICLES; i++) {
-            particles.push(new Particle(random(width), random(height)));
-        }
+        // CORREÇÃO EFETUADA: Retirado o laço que povoava a tela de início.
+        // O array agora nasce vazio para as partículas emergirem estritamente do rodapé!
     }
 
     function draw() {
         // SOLUÇÃO CRÍTICA DAS MANCHAS: Fundo preto puro (0-255) redesenhado a cada frame. 
-        // Isso elimina qualquer resíduo, mancha cinza ou bug de pixel na tela!
         background(5); 
         
-        // Alimenta o fluxo contínuo de poeira cósmica vindo debaixo
+        // CORREÇÃO EFETUADA: Alimenta o fluxo em duplas (for com k < 2) a partir de height + 30
+        // Isso garante densidade constante no nascimento vindo de fora do quadro visível!
         if (particles.length < TOTAL_PARTICLES) {
-            particles.push(new Particle(random(width), height + 20));
+            for (let k = 0; k < 2; k++) {
+                particles.push(new Particle(random(width), height + 30));
+            }
         }
 
         // Desenha e conecta a malha de dados somáticos
