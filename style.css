@@ -124,19 +124,19 @@ header {
     box-shadow: 0 0 25px rgba(0, 255, 65, 0.7);
 }
 
-/* FOOTER RECONFIGURADO: LAYOUT LIMPO E FLUIDEZ LÍQUIDA NAS LOGOS */
+/* FOOTER RECONFIGURADO: LAYOUT LIMPO E REGUA COM ILUMINAÇÃO DE SEGURANÇA ATIVA */
 footer {
     margin-top: 20px;
 }
 
-/* Painel das marcas com backlight sutil e estático */
+/* Painel das marcas com backlight sutil e moldura protetora */
 .sponsors-container {
     margin: 20px auto 15px auto;
     padding: 8px 12px; 
-    background: rgba(0, 255, 65, 0.01); /* Quase imperceptível no escuro */
+    background: rgba(0, 255, 65, 0.01); 
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(0, 255, 65, 0.15); /* Linha neon discreta */
+    border: 1px solid rgba(0, 255, 65, 0.15); 
     border-radius: 16px;
     width: 100%;
     box-shadow: 0 0 15px rgba(0, 255, 65, 0.03);
@@ -146,33 +146,34 @@ footer {
     justify-content: center;
 }
 
-/* A régua de logos EXPANDIDA com Respiração Sutil e Fluida */
+/* A régua de logos EXPANDIDA com Iluminação Neon Ativa (Nunca esmaece) */
 .sponsor-regua-unica {
     width: 100%;
     height: auto;
     max-height: 95px; 
     object-fit: contain;
+    opacity: 1; /* Forçado em 1 para total nitidez e leitura institucional */
     
-    /* Tamanho máximo imponente fixado */
+    /* Tamanho máximo imponente fixado em ambiente estável */
     transform: scale(1.06); 
     
-    /* NOVO MOTOR DE LUZ: Filtro estático para nitidez e animação focada em opacidade fluida */
-    filter: brightness(1.15) drop-shadow(0 0 2px rgba(0, 255, 65, 0.1));
-    animation: liquidFlux 4s infinite ease-in-out;
+    /* MOTOR DE LUZ NEON ATIVA: Injeta pulsação de fótons diretamente nos canais do PNG */
+    animation: neonBacklightRegua 4s infinite ease-in-out;
+    transition: filter 0.3s ease-in-out;
 }
 
 .regua-preta {
     /* Mantém o canal alfa limpo */
 }
 
-/* O container ignora sobressaltos do mouse, mantendo a paz visual */
+/* O container mantém a estabilidade espacial e apenas reforça o backlight da caixa */
 .sponsors-container:hover {
-    border-color: rgba(0, 255, 65, 0.25);
-    box-shadow: 0 0 20px rgba(0, 255, 65, 0.08);
+    border-color: rgba(0, 255, 65, 0.4);
+    box-shadow: 0 0 25px rgba(0, 255, 65, 0.15);
 }
 
 .sponsors-container:hover .sponsor-regua-unica {
-    transform: scale(1.06); /* Sem pulos ou tremores */
+    transform: scale(1.06); /* Fixado: Sem sobressaltos, pulos ou tremores */
 }
 
 .copyright {
@@ -215,12 +216,17 @@ footer {
     54% { opacity: 1; }
 }
 
-/* NOVO MOTOR PURIFICADO SEM BUGS: Oscilação líquida, contínua e elegante de opacidade */
-@keyframes liquidFlux {
+/* MOTOR DE INFRAESTRUTURA NEON: Projeta e expande a luz verde pura atrás das marcas brancas */
+@keyframes neonBacklightRegua {
     0%, 100% {
-        opacity: 0.55; /* Apaga sutilmente na penumbra */
+        /* Estado Focado: Contorno verde fino e perfeitamente legível */
+        filter: brightness(1.15) 
+                drop-shadow(0 0 3px #00ff41);
     }
     50% {
-        opacity: 0.95; /* Acende com nitidez elegante */
+        /* Estado Radiante: Expansão densa da aura de luz para destacar os patrocinadores */
+        filter: brightness(1.4) 
+                drop-shadow(0 0 6px #00ff41) 
+                drop-shadow(0 0 18px rgba(0, 255, 65, 0.75));
     }
 }
