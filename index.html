@@ -21,17 +21,17 @@
 
         <div class="glass-panel">
             <nav class="links">
-                <a href="https://lab.visto.art.br" target="_blank" class="link-card main-btn">
+                <a href="https://lab.visto.art.br" target="_blank" rel="noopener" class="link-card main-btn">
                     <span>COMECE POR AQUI</span>
                 </a>
                 
-                <a href="https://www.instagram.com/projeto_visto/" target="_blank" class="link-card">
+                <a href="https://www.instagram.com/projeto_visto/" target="_blank" rel="noopener" class="link-card">
                     <span>INSTAGRAM</span>
                 </a>
-                <a href="https://www.youtube.com/@PROJETOVISTO/featured" target="_blank" class="link-card">
+                <a href="https://www.youtube.com/@PROJETOVISTO/featured" target="_blank" rel="noopener" class="link-card">
                     <span>YOUTUBE</span>
                 </a>
-                <a href="https://openprocessing.org/@Projeto_VISTO#sketches" target="_blank" class="link-card">
+                <a href="https://openprocessing.org/@Projeto_VISTO#sketches" target="_blank" rel="noopener" class="link-card">
                     <span>OPENPROCESSING</span>
                 </a>
             </nav>
@@ -67,7 +67,7 @@
     function draw() {
         background(5); 
         
-        // ALIMENTAÇÃO LATERAL: Injeta partículas nas bordas esquerda e direita
+        // ALIMENTAÇÃO LATERAL: Injeta partículas pelas bordas esquerda e direita
         if (particles.length < TOTAL_PARTICLES) {
             let groupY = random(height); 
             
@@ -135,7 +135,7 @@
         }
         
         display() {
-            // CAPPING DE SEGURANÇA MOBILE: Impede que filamentos cruzem a área do footer
+            // CAPPING DE SEGURANÇA MOBILE: Impede cruzamento na área do footer institucional
             if (this.isMobile && this.y > windowHeight - 140) {
                 return; 
             }
