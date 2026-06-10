@@ -1,4 +1,6 @@
-/* RESET & BASE CONTRASTE ALTO */
+/* ==========================================================================
+   RESET & BASE CONTRASTE ALTO 
+   ========================================================================== */
 * {
     margin: 0;
     padding: 0;
@@ -14,20 +16,23 @@ body {
     align-items: center;
     min-height: 100vh;
     padding: 20px;
+    padding-bottom: 40px; /* Margem de segurança para barras físicas do mobile */
     overflow-x: hidden;
 }
 
-/* AJUSTE RESPONSIVO: Acaba com o desconforto no PC e fica perfeito no celular */
+/* AJUSTE RESPONSIVO: Ganha amplitude no monitor e centraliza no mobile */
 .container {
     width: 100%;
-    max-width: 650px; /* Expandido para preencher melhor o monitor */
+    max-width: 650px; 
     text-align: center;
     position: relative;
     z-index: 10; 
     transition: max-width 0.3s ease;
 }
 
-/* HEADER COM IMAGEM QUADRADA CRUA E PULSO NEON DO FILAMENTO */
+/* ==========================================================================
+   HEADER COM IMAGEM QUADRADA CRUA E PULSO NEON DO FILAMENTO
+   ========================================================================== */
 header {
     margin-bottom: 30px;
     display: flex;
@@ -43,9 +48,10 @@ header {
     width: 200px;
     height: 200px;
     object-fit: cover;
-    border-radius: 0px; /* QUADRADO PURO: Ângulos secos de 90° sem suavização */
+    border-radius: 0px; /* QUADRADO PURO: Ângulos secos de 90° do galpão */
     border: 1px solid rgba(0, 255, 65, 0.4);
     animation: neonGlow 4s infinite ease-in-out; 
+    transform: translateZ(0); /* Força a renderização direto na GPU */
 }
 
 .subtitle {
@@ -58,12 +64,12 @@ header {
     margin-top: 15px;
     padding: 0 10px;
     text-transform: uppercase;
-    
-    /* Nova animação de pulsação e cintilação de tela ativa */
     animation: neonBlink 3.5s infinite ease-in-out;
 }
 
-/* CAIXA ÚNICA GLASSMORPHISM */
+/* ==========================================================================
+   CAIXA ÚNICA GLASSMORPHISM & BOTÕES DO LINKTREE
+   ========================================================================== */
 .glass-panel {
     background: rgba(255, 255, 255, 0.03); 
     backdrop-filter: blur(12px); 
@@ -76,14 +82,12 @@ header {
     margin-bottom: 25px;
 }
 
-/* LINKS STYLE GLASS */
 .links {
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-/* PADRONIZAÇÃO: Todos os cards agora nascem com a base Glassmorphism */
 .link-card {
     display: block;
     padding: 18px;
@@ -99,7 +103,6 @@ header {
     font-size: 0.9rem;
 }
 
-/* ECOSSISTEMA REATIVO: Todos os botões normais agora acendem em verde-neon de forma sutil no toque/hover */
 .link-card:hover, .link-card:active {
     border-color: rgba(0, 255, 65, 0.5);
     color: #00ff41;
@@ -108,7 +111,6 @@ header {
     box-shadow: 0 0 15px rgba(0, 255, 65, 0.2);
 }
 
-/* DESTAQUE MÁXIMO DO BOTÃO PRINCIPAL (COMECE POR AQUI) */
 .main-btn {
     background: rgba(0, 255, 65, 0.08);
     border: 1px solid #00ff41;
@@ -124,70 +126,93 @@ header {
     box-shadow: 0 0 25px rgba(0, 255, 65, 0.7);
 }
 
-/* FOOTER RECONFIGURADO: LAYOUT LIMPO E REGUA COM ILUMINAÇÃO DE SEGURANÇA ATIVA */
+/* ==========================================================================
+   FOOTER: ISOLAMENTO TOTAL DA RÉGUA INSTITUCIONAL
+   ========================================================================== */
 footer {
     margin-top: 20px;
+    width: 100%;
 }
 
-/* Painel das marcas com backlight sutil e moldura protetora */
 .sponsors-container {
     margin: 20px auto 15px auto;
-    padding: 8px 12px; 
-    background: rgba(0, 255, 65, 0.01); 
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(0, 255, 65, 0.15); 
+    padding: 12px 16px; 
+    background: #050505; /* Fundo opaco para blindar as logos contra qualquer filamento do fundo */
+    border: 1px solid rgba(0, 255, 65, 0.25); 
     border-radius: 16px;
     width: 100%;
-    box-shadow: 0 0 15px rgba(0, 255, 65, 0.03);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
     transition: all 0.4s ease-in-out;
     display: flex;
     align-items: center;
     justify-content: center;
+    transform: translateZ(0);
 }
 
-/* A régua de logos EXPANDIDA com Iluminação Neon Ativa (Nunca esmaece) */
 .sponsor-regua-unica {
     width: 100%;
     height: auto;
     max-height: 95px; 
     object-fit: contain;
-    opacity: 1; /* Forçado em 1 para total nitidez e leitura institucional */
-    
-    /* Tamanho máximo imponente fixado em ambiente estável */
-    transform: scale(1.06); 
-    
-    /* MOTOR DE LUZ NEON ATIVA: Injeta pulsação de fótons diretamente nos canais do PNG */
+    opacity: 1; /* Exigência de nitidez máxima das marcas */
+    transform: scale(1.02); 
     animation: neonBacklightRegua 4s infinite ease-in-out;
-    transition: filter 0.3s ease-in-out;
 }
 
-.regua-preta {
-    /* Mantém o canal alfa limpo */
-}
-
-/* O container mantém a estabilidade espacial e apenas reforça o backlight da caixa */
 .sponsors-container:hover {
-    border-color: rgba(0, 255, 65, 0.4);
-    box-shadow: 0 0 25px rgba(0, 255, 65, 0.15);
+    border-color: rgba(0, 255, 65, 0.5);
+    box-shadow: 0 0 25px rgba(0, 255, 65, 0.2);
 }
 
 .sponsors-container:hover .sponsor-regua-unica {
-    transform: scale(1.06); /* Fixado: Sem sobressaltos, pulos ou tremores */
+    transform: scale(1.02); 
 }
 
 .copyright {
     font-size: 0.65rem;
-    color: #333;
+    color: #444; 
     letter-spacing: 1px;
     margin-top: 15px;
 }
 
 /* ==========================================================================
-   ANIMAÇÕES DE SINAL NEON (MOTORES DE LUZ)
+   REFATORAÇÃO COMPORTAMENTAL MOBILE (MEDIA QUERY)
    ========================================================================== */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+        padding-bottom: 50px; /* Garante o distanciamento das abas físicas do celular */
+    }
+    
+    .glass-panel {
+        padding: 18px; 
+        border-radius: 16px;
+    }
 
-/* Animação do contorno da imagem quadrada de perfil no topo */
+    .link-card {
+        padding: 16px;
+        font-size: 0.85rem; /* Blindagem contra quebra acidental de layout */
+    }
+
+    .sponsors-container {
+        padding: 10px 12px;
+        background: #050505; 
+        backdrop-filter: none; /* Desliga o blur para aliviar a GPU no mobile */
+        -webkit-backdrop-filter: none;
+    }
+    
+    .sponsor-regua-unica {
+        transform: scale(1); 
+    }
+    
+    .sponsors-container:hover .sponsor-regua-unica {
+        transform: scale(1);
+    }
+}
+
+/* ==========================================================================
+   ANIMAÇÕES DE SINAL NEON (MOTORES DE LUZ VIA GPU)
+   ========================================================================== */
 @keyframes neonGlow {
     0%, 100% {
         box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
@@ -199,34 +224,24 @@ footer {
     }
 }
 
-/* Animação sutil com micro-glitch no TEXTO do subtítulo */
 @keyframes neonBlink {
     0%, 100% {
-        text-shadow: 0 0 4px rgba(0, 255, 65, 0.3),
-                     0 0 10px rgba(0, 255, 65, 0.2);
+        text-shadow: 0 0 4px rgba(0, 255, 65, 0.3), 0 0 10px rgba(0, 255, 65, 0.2);
         opacity: 0.85;
     }
     50% {
-        text-shadow: 0 0 12px rgba(0, 255, 65, 0.7),
-                     0 0 20px rgba(0, 255, 65, 0.4),
-                     0 0 30px rgba(0, 255, 65, 0.2);
+        text-shadow: 0 0 12px rgba(0, 255, 65, 0.7), 0 0 20px rgba(0, 255, 65, 0.4);
         opacity: 1;
     }
     52% { opacity: 0.9; }
     54% { opacity: 1; }
 }
 
-/* MOTOR DE INFRAESTRUTURA NEON: Projeta e expande a luz verde pura atrás das marcas brancas */
 @keyframes neonBacklightRegua {
     0%, 100% {
-        /* Estado Focado: Contorno verde fino e perfeitamente legível */
-        filter: brightness(1.15) 
-                drop-shadow(0 0 3px #00ff41);
+        filter: brightness(1.15) drop-shadow(0 0 3px #00ff41);
     }
     50% {
-        /* Estado Radiante: Expansão densa da aura de luz para destacar os patrocinadores */
-        filter: brightness(1.4) 
-                drop-shadow(0 0 6px #00ff41) 
-                drop-shadow(0 0 18px rgba(0, 255, 65, 0.75));
+        filter: brightness(1.35) drop-shadow(0 0 5px #00ff41) drop-shadow(0 0 15px rgba(0, 255, 65, 0.6));
     }
 }
