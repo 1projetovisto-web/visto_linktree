@@ -122,7 +122,7 @@ header {
     box-shadow: 0 0 25px rgba(0, 255, 65, 0.7);
 }
 
-/* FOOTER RECONFIGURADO: FOCO NA VISIBILIDADE INSTITUCIONAL */
+/* FOOTER RECONFIGURADO: EXPANSÃO MÁXIMA DA RÉGUA DE LOGOS */
 footer {
     margin-top: 20px;
 }
@@ -144,28 +144,32 @@ footer {
     box-shadow: 0 0 15px rgba(0, 255, 65, 0.4);
 }
 
-/* Painel das marcas com backlight neon de segurança */
+/* Painel das marcas com ajuste de respiro interno reduzido para expansão */
 .sponsors-container {
     margin: 20px auto 15px auto;
-    padding: 16px; 
-    background: rgba(0, 255, 65, 0.02); /* Fundo sutil verde-neon */
+    padding: 8px 12px; /* Reduzido de 16px para maximizar a área útil interna */
+    background: rgba(0, 255, 65, 0.02); 
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(0, 255, 65, 0.25); /* Borda acesa em neon para emoldurar as marcas */
+    border: 1px solid rgba(0, 255, 65, 0.25); 
     border-radius: 16px;
     width: 100%;
     box-shadow: 0 0 20px rgba(0, 255, 65, 0.05);
     transition: all 0.4s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* A régua de logos purificada e acesa */
+/* A régua de logos EXPANDIDA para ocupar os vazios */
 .sponsor-regua-unica {
     width: 100%;
     height: auto;
-    max-height: 70px; 
+    max-height: 95px; /* Aumentado de 70px para 95px eliminando o vazio vertical */
     object-fit: contain;
-    opacity: 0.85; /* Subiu de 0.5 para 0.85 para garantir prestação de contas visível por padrão */
-    filter: brightness(1.2) drop-shadow(0 0 4px rgba(0, 255, 65, 0.2)); /* Realça o branco com aura neon */
+    opacity: 0.9; 
+    filter: brightness(1.2) drop-shadow(0 0 4px rgba(0, 255, 65, 0.2)); 
+    transform: scale(1.03); /* Preenche e espalha em direção às bordas laterais */
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
@@ -173,16 +177,16 @@ footer {
     mix-blend-mode: screen;
 }
 
-/* Efeito Hover/Toque no celular: Iluminação Máxima */
+/* Efeito Hover/Toque no celular: Iluminação e Presença Absoluta */
 .sponsors-container:hover {
     border-color: rgba(0, 255, 65, 0.6);
     box-shadow: 0 0 25px rgba(0, 255, 65, 0.25);
 }
 
 .sponsors-container:hover .sponsor-regua-unica {
-    opacity: 1; /* Revelação absoluta */
-    filter: brightness(1.5) drop-shadow(0 0 10px rgba(0, 255, 65, 0.6)); /* Super-brilho reativo */
-    transform: scale(1.01);
+    opacity: 1; 
+    filter: brightness(1.5) drop-shadow(0 0 10px rgba(0, 255, 65, 0.6)); 
+    transform: scale(1.06); /* Expansão responsiva reativa */
 }
 
 .copyright {
