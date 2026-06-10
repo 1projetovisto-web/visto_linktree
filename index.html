@@ -44,6 +44,7 @@
             <p class="copyright">© 2026 V.I.S.T.O_LAB | Porto Alegre</p>
         </footer>
     </div>
+    
     <script>
     let particles = [];
     const MAX_DIST = 120; // Conexões moleculares precisas
@@ -62,26 +63,28 @@
         canvas.style('-webkit-backdrop-filter', 'blur(4px) brightness(0.9)');
         
         background(5); // Inicializa o espaço preto totalmente limpo
-        
-        // CORREÇÃO EFETUADA: Retirado o laço que povoava a tela de início.
-        // O array agora nasce vazio para as partículas emergirem estritamente do rodapé!
     }
 
     function draw() {
         // SOLUÇÃO CRÍTICA DAS MANCHAS: Fundo preto puro (0-255) redesenhado a cada frame. 
         background(5); 
         
-        // ALIMENTAÇÃO EM GRUPOS DISPERSOS: Evita que nasçam grudadas na mesma coordenada
+        // RECONFIGURAÇÃO LOGÍSTICA: Alimentação pelas bordas laterais (Esquerda / Direita)
         if (particles.length < TOTAL_PARTICLES) {
-            // Sorteia uma coordenada X central para o cluster da vez
-            let groupX = random(width); 
+            let groupY = random(height); // Sorteia uma coordenada Y para o cluster na vertical
             
             for (let k = 0; k < 2; k++) {
-                // JITTER ESPACIAL: Garante um distanciamento físico de respiro no nascimento
-                let offsetX = random(-80, 80);
-                let offsetY = random(0, 40);
+                let offsetY = random(-60, 60);
                 
-                particles.push(new Particle(groupX + offsetX, height + 30 + offsetY));
+                // Determina aleatoriamente o lado de nascimento: 0 = Esquerda, 1 = Direita
+                let side = random(1) > 0.5 ? 0 : 1;
+                let spawnX = side === 0 ? -30 : width + 30; // Posiciona fora do limite visível
+                let spawnY = groupY + offsetY;
+                
+                // Vetor de empuxo: Nascidos na esquerda vão para a direita (1), nascidos na direita vão para a esquerda (-1)
+                let direction = side === 0 ? 1 : -1;
+                
+                particles.push(new Particle(spawnX, spawnY, direction));
             }
         }
 
@@ -103,7 +106,7 @@
             }
         }
 
-        // Faxina da Memória: Remove quem passou do topo ou sumiu por completo
+        // Faxina da Memória: Remove quem cruzou toda a extensão lateral ou esmaeceu por completo
         for (let i = particles.length - 1; i >= 0; i--) {
             if (particles[i].isDead()) {
                 particles.splice(i, 1);
@@ -112,42 +115,59 @@
     }
 
     class Particle {
-        constructor(x, y) {
+        constructor(x, y, direction) {
             this.x = x;
             this.y = y;
+            this.dir = direction; 
+            this.isMobile = windowWidth < 768;
             
-            // Física de Poeira Cósmica: Subida flutuante e cadenciada
-            this.vy = random(-1.0, -0.4); 
+            // VETOR HORIZONTAL: Deslocamento lateral constante cruzando a tela
+            // No mobile corre ligeiramente mais rápido para desocupar a janela pequena
+            let speedFactor = this.isMobile ? random(1.2, 2.4) : random(0.5, 1.4);
+            this.vx = speedFactor * this.dir;
             
-            // Sementes matemáticas para o movimento ondulatório orgânico
+            // VETOR VERTICAL: Flutuação suave de estabilização
+            this.vy = random(-0.2, 0.2); 
+            
+            // Sementes matemáticas para o movimento ondulatório orgânico (Drift no eixo Y)
             this.noiseSeed = random(5000);
-            this.oscillateSpeed = random(0.008, 0.02);
+            this.oscillateSpeed = random(0.005, 0.015);
             
-            this.alpha = random(100, 255); // Brilho inicial randômico para dar profundidade 3D
+            this.alpha = random(120, 255); // Brilho inicial estável
             this.size = random(1.8, 4.2);  // Tamanhos de grãos variados
-            this.fadeSpeed = random(0.04, 0.12); // Garante fôlego para cruzar a tela toda
+            this.fadeSpeed = this.isMobile ? random(0.12, 0.25) : random(0.03, 0.08); // Evacuação limpa no celular
         }
         
         update() {
-            // O Balanço Somático Horizontal (Efeito Drift)
             this.noiseSeed += this.oscillateSpeed;
-            let drift = sin(this.noiseSeed) * random(-0.5, 0.5);
+            // O desvio ondulatório orgânico atua agora suavizando a trajetória vertical (subida/descida)
+            let drift = sin(this.noiseSeed) * random(-0.4, 0.4);
             
-            this.x += drift; 
-            this.y += this.vy; 
-            this.alpha -= this.fadeSpeed; // O enfraquecimento individual substitui o rastro borrado do fundo
+            this.x += this.vx; 
+            this.y += this.vy + drift; 
+            this.alpha -= this.fadeSpeed; // Enfraquecimento gradual limpo
         }
         
         display() {
+            // ZONA DE EXCLUSÃO VISUAL MOBILE: Corta instantaneamente a renderização se chegar perto do rodapé institucional
+            if (this.isMobile && this.y > windowHeight - 140) {
+                return; 
+            }
+            
             noStroke();
-            // Renderiza a partícula pura com o canal de transparência limpo
             fill(0, 255, 65, this.alpha);
             ellipse(this.x, this.y, this.size, this.size);
         }
         
         isDead() {
-            // Só deixa morrer quando o brilho some ou passa da margem superior
-            return this.alpha <= 0 || this.y < -30;
+            // Morre se o brilho zerar ou se extrapolar os limites horizontais/verticais estendidos do Canvas
+            return (
+                this.alpha <= 0 || 
+                this.x < -60 || 
+                this.x > windowWidth + 60 ||
+                this.y < -60 ||
+                this.y > windowHeight + 60
+            );
         }
     }
 
