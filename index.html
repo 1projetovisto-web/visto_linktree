@@ -77,11 +77,17 @@
         // SOLUÇÃO CRÍTICA DAS MANCHAS: Fundo preto puro (0-255) redesenhado a cada frame. 
         background(5); 
         
-        // CORREÇÃO EFETUADA: Alimenta o fluxo em duplas (for com k < 2) a partir de height + 30
-        // Isso garante densidade constante no nascimento vindo de fora do quadro visível!
+        // ALIMENTAÇÃO EM GRUPOS DISPERSOS: Evita que nasçam grudadas na mesma coordenada
         if (particles.length < TOTAL_PARTICLES) {
+            // Sorteia uma coordenada X central para o cluster da vez
+            let groupX = random(width); 
+            
             for (let k = 0; k < 2; k++) {
-                particles.push(new Particle(random(width), height + 30));
+                // JITTER ESPACIAL: Garante um distanciamento físico de respiro no nascimento
+                let offsetX = random(-80, 80);
+                let offsetY = random(0, 40);
+                
+                particles.push(new Particle(groupX + offsetX, height + 30 + offsetY));
             }
         }
 
