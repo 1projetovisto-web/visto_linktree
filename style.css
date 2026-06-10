@@ -16,11 +16,10 @@ body {
     align-items: center;
     min-height: 100vh;
     padding: 20px;
-    padding-bottom: 40px; /* Margem de segurança para barras físicas do mobile */
+    padding-bottom: 40px; 
     overflow-x: hidden;
 }
 
-/* AJUSTE RESPONSIVO: Ganha amplitude no monitor e centraliza no mobile */
 .container {
     width: 100%;
     max-width: 650px; 
@@ -48,10 +47,10 @@ header {
     width: 200px;
     height: 200px;
     object-fit: cover;
-    border-radius: 0px; /* QUADRADO PURO: Ângulos secos de 90° do galpão */
+    border-radius: 0px; 
     border: 1px solid rgba(0, 255, 65, 0.4);
     animation: neonGlow 4s infinite ease-in-out; 
-    transform: translateZ(0); /* Força a renderização direto na GPU */
+    transform: translateZ(0); 
 }
 
 .subtitle {
@@ -127,7 +126,7 @@ header {
 }
 
 /* ==========================================================================
-   FOOTER: ISOLAMENTO TOTAL DA RÉGUA INSTITUCIONAL
+   FOOTER: BACKLIGHT NO BOX INTEIRO (MOLDURA ATIVA SEM BORRAR AS LOGOS)
    ========================================================================== */
 footer {
     margin-top: 20px;
@@ -136,17 +135,20 @@ footer {
 
 .sponsors-container {
     margin: 20px auto 15px auto;
-    padding: 12px 16px; 
-    background: #050505; /* Fundo opaco para blindar as logos contra qualquer filamento do fundo */
-    border: 1px solid rgba(0, 255, 65, 0.25); 
+    padding: 14px 18px; 
+    background: #050505; /* Escuridão interna pura para garantir o isolamento das marcas */
+    border: 1px solid rgba(0, 255, 65, 0.3); 
     border-radius: 16px;
     width: 100%;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-    transition: all 0.4s ease-in-out;
+    
+    /* MODULAÇÃO DE FÓTONS NAS BORDAS DO CONTÊINER */
+    animation: neonBoxPulse 4s infinite ease-in-out;
+    
     display: flex;
     align-items: center;
     justify-content: center;
-    transform: translateZ(0);
+    transform: translateZ(0); 
+    transition: all 0.4s ease-in-out;
 }
 
 .sponsor-regua-unica {
@@ -154,18 +156,14 @@ footer {
     height: auto;
     max-height: 95px; 
     object-fit: contain;
-    opacity: 1; /* Exigência de nitidez máxima das marcas */
-    transform: scale(1.02); 
-    animation: neonBacklightRegua 4s infinite ease-in-out;
+    opacity: 1; 
+    transform: scale(1.02);
+    filter: none; /* Marcas brancas limpas e sem desfoques invasivos */
+    transition: transform 0.3s ease-in-out;
 }
 
 .sponsors-container:hover {
-    border-color: rgba(0, 255, 65, 0.5);
-    box-shadow: 0 0 25px rgba(0, 255, 65, 0.2);
-}
-
-.sponsors-container:hover .sponsor-regua-unica {
-    transform: scale(1.02); 
+    border-color: rgba(0, 255, 65, 0.8);
 }
 
 .copyright {
@@ -181,7 +179,7 @@ footer {
 @media (max-width: 768px) {
     body {
         padding: 15px;
-        padding-bottom: 50px; /* Garante o distanciamento das abas físicas do celular */
+        padding-bottom: 50px;
     }
     
     .glass-panel {
@@ -191,13 +189,13 @@ footer {
 
     .link-card {
         padding: 16px;
-        font-size: 0.85rem; /* Blindagem contra quebra acidental de layout */
+        font-size: 0.85rem;
     }
 
     .sponsors-container {
-        padding: 10px 12px;
-        background: #050505; 
-        backdrop-filter: none; /* Desliga o blur para aliviar a GPU no mobile */
+        padding: 12px 14px;
+        background: #050505;
+        backdrop-filter: none;
         -webkit-backdrop-filter: none;
     }
     
@@ -237,11 +235,16 @@ footer {
     54% { opacity: 1; }
 }
 
-@keyframes neonBacklightRegua {
+/* PULSAÇÃO PERIMETRAL: Envelopa o contêiner e protege o miolo das marcas */
+@keyframes neonBoxPulse {
     0%, 100% {
-        filter: brightness(1.15) drop-shadow(0 0 3px #00ff41);
+        border-color: rgba(0, 255, 65, 0.25);
+        box-shadow: 0 0 12px rgba(0, 255, 65, 0.1),
+                    inset 0 0 8px rgba(0, 255, 65, 0.05);
     }
     50% {
-        filter: brightness(1.35) drop-shadow(0 0 5px #00ff41) drop-shadow(0 0 15px rgba(0, 255, 65, 0.6));
+        border-color: rgba(0, 255, 65, 0.7);
+        box-shadow: 0 0 25px rgba(0, 255, 65, 0.4),
+                    inset 0 0 12px rgba(0, 255, 65, 0.15);
     }
 }
