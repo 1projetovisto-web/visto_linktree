@@ -52,47 +52,58 @@
 
     <script>
     let particles = [];
-    const MAX_DIST = 125; // Distância perfeita para conexões fluídas
-    const TOTAL_PARTICLES = 70; // Densidade ideal para gerar profundidade cósmica
+    const MAX_DIST = 120; // Conexões moleculares precisas
+    const TOTAL_PARTICLES = 60; // Densidade ideal para não sobrecarregar a tela
 
     function setup() {
         let canvas = createCanvas(windowWidth, windowHeight);
         canvas.position(0, 0);
+        
+        /* APLICAÇÃO DE GLASSMORPHISM DIRETO NO CANVAS DA CONSTELAÇÃO */
         canvas.style('z-index', '-1'); 
-        background(5);
-
-        // Distribui as partículas por toda a tela no nascimento para preenchimento imediato
+        canvas.style('position', 'fixed');
+        canvas.style('top', '0');
+        canvas.style('left', '0');
+        canvas.style('backdrop-filter', 'blur(4px) brightness(0.9)'); // Névoa sci-fi sutil de fundo
+        canvas.style('-webkit-backdrop-filter', 'blur(4px) brightness(0.9)');
+        
+        background(5); // Inicializa o espaço preto
+        
+        // Popula a tela de forma homogênea no início
         for (let i = 0; i < TOTAL_PARTICLES; i++) {
             particles.push(new Particle(random(width), random(height)));
         }
     }
 
     function draw() {
-        // Mantém o espaço limpo e o rastro sutil de poeira antiga
-        background(5, 35); 
+        // SOLUÇÃO CRÍTICA DAS MANCHAS: Fundo preto puro (0-255) redesenhado a cada frame. 
+        // Isso elimina qualquer resíduo, mancha cinza ou bug de pixel na tela!
+        background(5); 
         
-        // Alimenta o fluxo continuamente a partir do rodapé
+        // Alimenta o fluxo contínuo de poeira cósmica vindo debaixo
         if (particles.length < TOTAL_PARTICLES) {
             particles.push(new Particle(random(width), height + 20));
         }
 
-        // Move, oscila e conecta a constelação
+        // Desenha e conecta a malha de dados somáticos
         for (let i = 0; i < particles.length; i++) {
             particles[i].update();
             particles[i].display();
             
+            // Conexões de filamentos de luz
             for (let j = i + 1; j < particles.length; j++) {
                 let d = dist(particles[i].x, particles[i].y, particles[j].x, particles[j].y);
                 if (d < MAX_DIST) {
+                    // Calcula a opacidade da linha com base na vida das duas partículas conectadas
                     let alphaLine = map(d, 0, MAX_DIST, min(particles[i].alpha, particles[j].alpha), 0);
-                    stroke(0, 255, 65, alphaLine * 0.3); // Conexões verde-neon em filamentos finos
-                    strokeWeight(0.75); // Linhas ultra-finas sci-fi
+                    stroke(0, 255, 65, alphaLine * 0.35); // Linhas finas verde-neon reativas
+                    strokeWeight(0.8);
                     line(particles[i].x, particles[i].y, particles[j].x, particles[j].y);
                 }
             }
         }
 
-        // Limpeza da memória
+        // Faxina da Memória: Remove quem passou do topo ou sumiu por completo
         for (let i = particles.length - 1; i >= 0; i--) {
             if (particles[i].isDead()) {
                 particles.splice(i, 1);
@@ -105,37 +116,37 @@
             this.x = x;
             this.y = y;
             
-            // FÍSICA DE POEIRA: Subida extremamente lenta e flutuante
-            this.vy = random(-0.9, -0.4); 
+            // Física de Poeira Cósmica: Subida flutuante e cadenciada
+            this.vy = random(-1.0, -0.4); 
             
-            // Variáveis para criar o balanço orgânico individual
-            this.noiseSeed = random(1000); 
-            this.oscillateSpeed = random(0.01, 0.03);
+            // Sementes matemáticas para o movimento ondulatório orgânico
+            this.noiseSeed = random(5000);
+            this.oscillateSpeed = random(0.008, 0.02);
             
-            this.alpha = random(120, 255); // Variação de brilho inicial gera profundidade
-            this.size = random(1.5, 4.0); // Tamanhos variados (partículas mais distantes e mais próximas)
-            this.fadeSpeed = random(0.15, 0.3); // Longevidade garantida até o topo
+            this.alpha = random(100, 255); // Brilho inicial randômico para dar profundidade 3D
+            this.size = random(1.8, 4.2);  // Tamanhos de grãos variados
+            this.fadeSpeed = random(0.15, 0.35); // Garante fôlego para cruzar a tela toda
         }
         
         update() {
-            // A MÁGICA DA POEIRA: O movimento horizontal oscila usando Seno e Perlin Noise
+            // O Balanço Somático Horizontal (Efeito Drift)
             this.noiseSeed += this.oscillateSpeed;
-            let drift = sin(this.noiseSeed) * random(-0.4, 0.4);
+            let drift = sin(this.noiseSeed) * random(-0.5, 0.5);
             
-            this.x += drift; // Desvio lateral fluido
-            this.y += this.vy; // Subida contínua lenta
-            this.alpha -= this.fadeSpeed; // Perda de energia super suave
+            this.x += drift; 
+            this.y += this.vy; 
+            this.alpha -= this.fadeSpeed; // O enfraquecimento individual substitui o rastro borrado do fundo
         }
         
         display() {
             noStroke();
-            // Aplica o brilho verde-neon proporcional à vida da poeira
+            // Renderiza a partícula pura com o canal de transparência limpo
             fill(0, 255, 65, this.alpha);
             ellipse(this.x, this.y, this.size, this.size);
         }
         
         isDead() {
-            // Cruza a tela inteira e só morre no topo ou se apagar por completo
+            // Só deixa morrer quando o brilho some ou passa da margem superior
             return this.alpha <= 0 || this.y < -30;
         }
     }
