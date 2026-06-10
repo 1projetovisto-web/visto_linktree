@@ -20,7 +20,6 @@
         </header>
 
         <div class="glass-panel">
-
             <nav class="links">
                 <a href="https://lab.visto.art.br" target="_blank" class="link-card main-btn">
                     <span>COMECE POR AQUI</span>
@@ -37,6 +36,7 @@
                 </a>
             </nav>
         </div>
+        
         <footer>    
             <div class="sponsors-container">
                 <img src="https://res.cloudinary.com/dwx6kf2f6/image/upload/v1781028607/regua_atualizada_institucional_fundo_preto_rxqjuw.png" alt="Régua de Financiamento Oficial - PNAB / SEDAC RS" class="sponsor-regua-unica regua-preta">
@@ -47,66 +47,58 @@
     
     <script>
     let particles = [];
-    const MAX_DIST = 120; // Conexões moleculares precisas
-    const TOTAL_PARTICLES = 190; // Densidade ideal para não sobrecarregar a tela
+    const MAX_DIST = 120; 
+    const TOTAL_PARTICLES = 190; 
 
     function setup() {
         let canvas = createCanvas(windowWidth, windowHeight);
         canvas.position(0, 0);
         
-        /* APLICAÇÃO DE GLASSMORPHISM DIRETO NO CANVAS DA CONSTELAÇÃO */
         canvas.style('z-index', '-1'); 
         canvas.style('position', 'fixed');
         canvas.style('top', '0');
         canvas.style('left', '0');
-        canvas.style('backdrop-filter', 'blur(4px) brightness(0.9)'); // Névoa sci-fi sutil de fundo
+        canvas.style('backdrop-filter', 'blur(4px) brightness(0.9)'); 
         canvas.style('-webkit-backdrop-filter', 'blur(4px) brightness(0.9)');
         
-        background(5); // Inicializa o espaço preto totalmente limpo
+        background(5); 
     }
 
     function draw() {
-        // SOLUÇÃO CRÍTICA DAS MANCHAS: Fundo preto puro (0-255) redesenhado a cada frame. 
         background(5); 
         
-        // RECONFIGURAÇÃO LOGÍSTICA: Alimentação pelas bordas laterais (Esquerda / Direita)
+        // ALIMENTAÇÃO LATERAL: Injeta partículas nas bordas esquerda e direita
         if (particles.length < TOTAL_PARTICLES) {
-            let groupY = random(height); // Sorteia uma coordenada Y para o cluster na vertical
+            let groupY = random(height); 
             
             for (let k = 0; k < 2; k++) {
                 let offsetY = random(-60, 60);
                 
-                // Determina aleatoriamente o lado de nascimento: 0 = Esquerda, 1 = Direita
                 let side = random(1) > 0.5 ? 0 : 1;
-                let spawnX = side === 0 ? -30 : width + 30; // Posiciona fora do limite visível
+                let spawnX = side === 0 ? -30 : width + 30; 
                 let spawnY = groupY + offsetY;
                 
-                // Vetor de empuxo: Nascidos na esquerda vão para a direita (1), nascidos na direita vão para a esquerda (-1)
                 let direction = side === 0 ? 1 : -1;
                 
                 particles.push(new Particle(spawnX, spawnY, direction));
             }
         }
 
-        // Desenha e conecta a malha de dados somáticos
         for (let i = 0; i < particles.length; i++) {
             particles[i].update();
             particles[i].display();
             
-            // Conexões de filamentos de luz
             for (let j = i + 1; j < particles.length; j++) {
                 let d = dist(particles[i].x, particles[i].y, particles[j].x, particles[j].y);
                 if (d < MAX_DIST) {
-                    // Calcula a opacidade da linha com base na vida das duas partículas conectadas
                     let alphaLine = map(d, 0, MAX_DIST, min(particles[i].alpha, particles[j].alpha), 0);
-                    stroke(0, 255, 65, alphaLine * 0.35); // Linhas finas verde-neon reativas
+                    stroke(0, 255, 65, alphaLine * 0.35); 
                     strokeWeight(0.8);
                     line(particles[i].x, particles[i].y, particles[j].x, particles[j].y);
                 }
             }
         }
 
-        // Faxina da Memória: Remove quem cruzou toda a extensão lateral ou esmaeceu por completo
         for (let i = particles.length - 1; i >= 0; i--) {
             if (particles[i].isDead()) {
                 particles.splice(i, 1);
@@ -121,35 +113,29 @@
             this.dir = direction; 
             this.isMobile = windowWidth < 768;
             
-            // VETOR HORIZONTAL: Deslocamento lateral constante cruzando a tela
-            // No mobile corre ligeiramente mais rápido para desocupar a janela pequena
             let speedFactor = this.isMobile ? random(1.2, 2.4) : random(0.5, 1.4);
             this.vx = speedFactor * this.dir;
-            
-            // VETOR VERTICAL: Flutuação suave de estabilização
             this.vy = random(-0.2, 0.2); 
             
-            // Sementes matemáticas para o movimento ondulatório orgânico (Drift no eixo Y)
             this.noiseSeed = random(5000);
             this.oscillateSpeed = random(0.005, 0.015);
             
-            this.alpha = random(120, 255); // Brilho inicial estável
-            this.size = random(1.8, 4.2);  // Tamanhos de grãos variados
-            this.fadeSpeed = this.isMobile ? random(0.12, 0.25) : random(0.03, 0.08); // Evacuação limpa no celular
+            this.alpha = random(120, 255); 
+            this.size = random(1.8, 4.2);  
+            this.fadeSpeed = this.isMobile ? random(0.12, 0.25) : random(0.03, 0.08); 
         }
         
         update() {
             this.noiseSeed += this.oscillateSpeed;
-            // O desvio ondulatório orgânico atua agora suavizando a trajetória vertical (subida/descida)
             let drift = sin(this.noiseSeed) * random(-0.4, 0.4);
             
             this.x += this.vx; 
             this.y += this.vy + drift; 
-            this.alpha -= this.fadeSpeed; // Enfraquecimento gradual limpo
+            this.alpha -= this.fadeSpeed; 
         }
         
         display() {
-            // ZONA DE EXCLUSÃO VISUAL MOBILE: Corta instantaneamente a renderização se chegar perto do rodapé institucional
+            // CAPPING DE SEGURANÇA MOBILE: Impede que filamentos cruzem a área do footer
             if (this.isMobile && this.y > windowHeight - 140) {
                 return; 
             }
@@ -160,7 +146,6 @@
         }
         
         isDead() {
-            // Morre se o brilho zerar ou se extrapolar os limites horizontais/verticais estendidos do Canvas
             return (
                 this.alpha <= 0 || 
                 this.x < -60 || 
