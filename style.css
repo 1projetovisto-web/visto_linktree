@@ -100,6 +100,9 @@ header {
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     font-family: 'Orbitron', sans-serif;
     font-size: 0.9rem;
+    
+    /* OTIMIZAÇÃO DE EVENTO DE TOQUE MOBILE: Remove atrasos nativos de toque */
+    touch-action: manipulation;
 }
 
 .link-card:hover, .link-card:active {
@@ -126,29 +129,31 @@ header {
 }
 
 /* ==========================================================================
-   FOOTER: BACKLIGHT NO BOX INTEIRO (MOLDURA ATIVA SEM BORRAR AS LOGOS)
+   FOOTER: ILUMINAÇÃO ESTÁTICA E CONSTANTE (MÁXIMO CONTRASTE INSTITUCIONAL)
    ========================================================================== */
 footer {
     margin-top: 20px;
     width: 100%;
 }
 
+/* O BOX AGORA SUSTENTA UM GLOW SUAVE, CONSTANTE E PERMANENTE POR TRÁS DAS LOGOS */
 .sponsors-container {
     margin: 20px auto 15px auto;
     padding: 14px 18px; 
-    background: #050505; /* Escuridão interna pura para garantir o isolamento das marcas */
-    border: 1px solid rgba(0, 255, 65, 0.3); 
+    background: #050505; /* Escuridão pura para ancorar o branco das marcas */
+    border: 1px solid rgba(0, 255, 65, 0.4); /* Linha fixa verde-fósforo */
     border-radius: 16px;
     width: 100%;
     
-    /* MODULAÇÃO DE FÓTONS NAS BORDAS DO CONTÊINER */
-    animation: neonBoxPulse 4s infinite ease-in-out;
+    /* LUZ ACESA O TEMPO TEMPO: Brilho sutil externo e névoa interna de contraste */
+    box-shadow: 0 0 18px rgba(0, 255, 65, 0.15),
+                inset 0 0 12px rgba(0, 255, 65, 0.08);
     
     display: flex;
     align-items: center;
     justify-content: center;
     transform: translateZ(0); 
-    transition: all 0.4s ease-in-out;
+    transition: all 0.3s ease-in-out;
 }
 
 .sponsor-regua-unica {
@@ -158,12 +163,14 @@ footer {
     object-fit: contain;
     opacity: 1; 
     transform: scale(1.02);
-    filter: none; /* Marcas brancas limpas e sem desfoques invasivos */
+    filter: none; /* Canal alfa limpo e marcas brancas totalmente nítidas */
     transition: transform 0.3s ease-in-out;
 }
 
 .sponsors-container:hover {
     border-color: rgba(0, 255, 65, 0.8);
+    box-shadow: 0 0 25px rgba(0, 255, 65, 0.3),
+                inset 0 0 16px rgba(0, 255, 65, 0.12);
 }
 
 .copyright {
@@ -233,18 +240,4 @@ footer {
     }
     52% { opacity: 0.9; }
     54% { opacity: 1; }
-}
-
-/* PULSAÇÃO PERIMETRAL: Envelopa o contêiner e protege o miolo das marcas */
-@keyframes neonBoxPulse {
-    0%, 100% {
-        border-color: rgba(0, 255, 65, 0.25);
-        box-shadow: 0 0 12px rgba(0, 255, 65, 0.1),
-                    inset 0 0 8px rgba(0, 255, 65, 0.05);
-    }
-    50% {
-        border-color: rgba(0, 255, 65, 0.7);
-        box-shadow: 0 0 25px rgba(0, 255, 65, 0.4),
-                    inset 0 0 12px rgba(0, 255, 65, 0.15);
-    }
 }
